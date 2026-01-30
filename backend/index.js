@@ -1,18 +1,18 @@
 const express = require("express");
-const app = express();
-const PORT = process.env.PORT; // sin || 3000
-
 const cors = require("cors");
+require("dotenv").config();
 
-app.use(cors({
-  origin: "https://proyecto-2026.vercel.app/"
-}));
+const app = express();
+app.use(cors());
+app.use(express.json());
 
+// Rutas de ejemplo
 app.get("/", (req, res) => {
-  res.send("¡Backend funcionando!");
+  res.send("¡Backend funcionando en Fly!");
 });
 
-app.listen(PORT, '0.0.0.0', () => {
+// Puerto asignado por Fly
+const PORT = process.env.PORT;
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
-
