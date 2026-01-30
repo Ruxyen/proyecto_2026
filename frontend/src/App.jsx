@@ -1,23 +1,33 @@
 import { useEffect, useState } from "react";
-import './App.css';
+import "./App.css";
 
 function App() {
-  // Estado para guardar el mensaje que viene del backend
-  const [mensaje, setMensaje] = useState("");
+  const [usuarios, setUsuarios] = useState([]);
+  const [error, setError] = useState(null);
 
-  // useEffect se ejecuta al montar el componente
   useEffect(() => {
-    // Petición al backend en localhost:3000
-    fetch("https://proyecto-2026-tmaf-a.fly.dev")
-      .then(res => res.text())           // Convertimos la respuesta en texto
-      .then(data => setMensaje(data))    // Guardamos el mensaje en el estado
-      .catch(err => setMensaje("Error: " + err.message)); // Manejo de errores
+    fetch(`${import.meta.env.VITE_API_URL}/usuarios`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("No se pudo conectar al backend");
+        }
+        return res.json();
+      })
+      .then((data) => setUsuarios(data))
+      .catch((err) => setError(err.message));
   }, []);
 
   return (
-    <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
-      <h1>Mensaje desde el backend:</h1>
-      <p>{mensaje}</p>
+    <div>
+      <h1>Proyecto 2026</h1>
+
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
+      <ul>
+        {usuarios.map((u) => (
+          <li key={u.id}>{u.nombre}</li>
+        ))}
+      </ul>
     </div>
   );
 }
