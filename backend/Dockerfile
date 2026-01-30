@@ -18,3 +18,4 @@ EXPOSE 3000
 
 # Comando para iniciar el backend
 CMD ["node", "index.js"]
+
